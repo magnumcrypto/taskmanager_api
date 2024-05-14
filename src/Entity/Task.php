@@ -27,18 +27,18 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateInit = null;
 
-    #[ORM\Column(name: 'estimated_hours', type: Types::TIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $estimatedHours = null;
-
-    #[ORM\Column(name: 'dedicated_hours', type: Types::TIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dedicatedHours = null;
-
     #[ORM\Column(length: 255)]
     private ?string $clasification = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks', targetEntity: Proyect::class)]
     #[ORM\JoinColumn(nullable: false, name: 'proyect_id', referencedColumnName: 'proyect_id')]
     private ?Proyect $proyect = null;
+
+    #[ORM\Column(name: 'estimated_hours')]
+    private ?int $estimatedHours = null;
+
+    #[ORM\Column(name: 'dedicated_hours')]
+    private ?int $dedicatedHours = null;
 
     public function getId(): ?int
     {
@@ -93,30 +93,6 @@ class Task
         return $this;
     }
 
-    public function getEstimatedHours(): ?\DateTimeInterface
-    {
-        return $this->estimatedHours;
-    }
-
-    public function setEstimatedHours(?\DateTimeInterface $estimatedHours): static
-    {
-        $this->estimatedHours = $estimatedHours;
-
-        return $this;
-    }
-
-    public function getDedicatedHours(): ?\DateTimeInterface
-    {
-        return $this->dedicatedHours;
-    }
-
-    public function setDedicatedHours(?\DateTimeInterface $dedicatedHours): static
-    {
-        $this->dedicatedHours = $dedicatedHours;
-
-        return $this;
-    }
-
     public function getClasification(): ?string
     {
         return $this->clasification;
@@ -137,6 +113,30 @@ class Task
     public function setProyect(?Proyect $proyect): static
     {
         $this->proyect = $proyect;
+
+        return $this;
+    }
+
+    public function getEstimatedHours(): ?int
+    {
+        return $this->estimatedHours;
+    }
+
+    public function setEstimatedHours(int $estimatedHours): static
+    {
+        $this->estimatedHours = $estimatedHours;
+
+        return $this;
+    }
+
+    public function getDedicatedHours(): ?int
+    {
+        return $this->dedicatedHours;
+    }
+
+    public function setDedicatedHours(int $dedicatedHours): static
+    {
+        $this->dedicatedHours = $dedicatedHours;
 
         return $this;
     }
