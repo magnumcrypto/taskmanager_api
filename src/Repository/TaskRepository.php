@@ -68,4 +68,28 @@ class TaskRepository extends ServiceEntityRepository
         }
         return true;
     }
+
+    public function getTasksJSON(Proyect $proyect): array
+    {
+        $tasks = $this->findBy(
+            ['proyect' => $proyect],
+            ['id' => 'DESC']
+        );
+
+        $taskJSON = [];
+        foreach ($tasks as $key => $task) {
+            $taskJSON[] =
+                [
+                    'id' => $task->getId(),
+                    'title' => $task->getTitle(),
+                    'description' => $task->getDescription(),
+                    'priority' => $task->getPRiority(),
+                    'clasification' => $task->getClasification(),
+                    'estimated_hours' => $task->getEstimatedHours(),
+                    'dedicated_hours' => $task->getDedicatedHours(),
+                    'date_init' => $task->getDateInit()->format('d/m/Y')
+                ];
+        }
+        return $taskJSON;
+    }
 }
