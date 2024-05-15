@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Task;
 use App\Repository\ProyectRepository;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,5 +31,16 @@ class TaskController extends AbstractController
         $proyect = $proyectRepo->findOneBy(['id' => 1]);
         $tasks = $taskRepository->getTasksJSON($proyect);
         return new JsonResponse($tasks, Response::HTTP_OK);
+    }
+
+    #[Route('/tasks/{id}', name: 'app_task_delete', methods: ['DELETE'])]
+    public function delete(Task $task, TaskRepository $taskRepository)
+    {
+        $isDeleted = $taskRepository->remove($task, true);
+        if (is_null($isDeleted)) {
+            $response =  new JsonResponse(['msg' => 'Tarea eliminada correctamente', 'status' => 200], Response::HTTP_OK);
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            return $response;
+        }
     }
 }
