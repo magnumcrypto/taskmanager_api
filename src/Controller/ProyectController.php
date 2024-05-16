@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
+use App\Repository\ProyectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ProyectController extends AbstractController
 {
-    #[Route('/proyect', name: 'app_proyect')]
-    public function index(): JsonResponse
+    #[Route('/proyects', name: 'app_proyect_all', methods: ['GET'])]
+    public function index(ProyectRepository $proyectRepository)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ProyectController.php',
-        ]);
+        $proyects = $proyectRepository->getProyectsJSON();
+        return new JsonResponse($proyects, Response::HTTP_OK);
     }
 }

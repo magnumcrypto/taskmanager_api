@@ -16,7 +16,17 @@ class ProyectRepository extends ServiceEntityRepository
         parent::__construct($registry, Proyect::class);
     }
 
-    public function getTasksJSON()
+    public function getProyectsJSON(): array
     {
+        $proyects = $this->findAll();
+        $proyectsJSON = [];
+        foreach ($proyects as $proyect) {
+            $proyect[] =
+                [
+                    'id' => $proyect->getId(),
+                    'name' => $proyect->getName()
+                ];
+        }
+        return $proyectsJSON;
     }
 }
