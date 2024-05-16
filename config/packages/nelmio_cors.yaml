@@ -3,13 +3,13 @@ nelmio_cors:
         allow_credentials: true
         allow_origin: ["*"]
         allow_headers: ["*"]
-        allow_methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+        allow_methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "PATCH"]
         expose_headers: ["Content-Type', 'Authorization"]
         max_age: 3600
     paths:
         "^/":
             allow_origin: ["*"]
             allow_headers: ["*"]
-            allow_methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+            allow_methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "PATCH"]
             expose_headers: ["Content-Type', 'Authorization"]
             max_age: 3600

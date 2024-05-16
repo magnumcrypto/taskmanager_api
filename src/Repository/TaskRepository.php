@@ -84,7 +84,7 @@ class TaskRepository extends ServiceEntityRepository
         );
 
         $taskJSON = [];
-        foreach ($tasks as $key => $task) {
+        foreach ($tasks as $task) {
             $taskJSON[] =
                 [
                     'id' => $task->getId(),
@@ -98,5 +98,29 @@ class TaskRepository extends ServiceEntityRepository
                 ];
         }
         return $taskJSON;
+    }
+
+    public function updateTask(Task $task, object $taskData): bool
+    {
+        if (!isset($taskData)) {
+            return false;
+        }
+        if (!is_int($taskData->dedicated_hours)) {
+            return false;
+        }
+        $dedicatedHours = $taskData->dedicated_hours;
+        $task
+            ->setDedicatedHours($dedicatedHours)
+            ->setDescription($taskData->description);
+        if ($taskData->priority !== '') {
+            $priorityArr = ['urgent', 'hight', 'important', 'moderate', 'low'];
+            $priority = intval($taskData->priority);
+            $task->setPriority($priorityArr[$priority]);
+        }
+        $isUpdate = $this->save($task, true);
+        if (!is_null($isUpdate)) {
+            return false;
+        }
+        return true;
     }
 }
