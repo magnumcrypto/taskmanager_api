@@ -123,4 +123,21 @@ class TaskRepository extends ServiceEntityRepository
         }
         return true;
     }
+
+    public function saveTasks($data): bool
+    {
+        if (!isset($data)) {
+            return false;
+        }
+
+        $tasks = $data->allTasks;
+
+        foreach ($tasks as $task) {
+            $updateTask = $this->findOneBy(['id' => $task->id]);
+            $updateTask->setClasification($task->clasification);
+            $this->save($updateTask, true);
+        }
+
+        return true;
+    }
 }

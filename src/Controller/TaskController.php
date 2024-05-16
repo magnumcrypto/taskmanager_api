@@ -54,4 +54,16 @@ class TaskController extends AbstractController
         }
         return new JsonResponse(['msg' => 'Tarea actualizada correctamente', 'status' => 201], Response::HTTP_CREATED);
     }
+
+    #[Route('/save', name: 'app_tasks_save_all', methods: ['PATCH'])]
+    public function saveAll(Request $request, TaskRepository $taskRepository)
+    {
+        $data = json_decode($request->getContent());
+        $isUpdated = $taskRepository->saveTasks($data);
+
+        if (!$isUpdated) {
+            return new JsonResponse(['msg' => 'Error en la actualizacion', 'status' => 400], Response::HTTP_BAD_REQUEST);
+        }
+        return new JsonResponse(['msg' => 'Tareas actualizadas correctamente', 'status' => 200], Response::HTTP_OK);
+    }
 }
