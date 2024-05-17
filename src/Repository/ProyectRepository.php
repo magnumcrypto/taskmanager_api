@@ -21,10 +21,10 @@ class ProyectRepository extends ServiceEntityRepository
         $proyects = $this->findAll();
         $proyectsJSON = [];
         foreach ($proyects as $proyect) {
-            $proyect[] =
+            $proyectsJSON[] =
                 [
                     'id' => $proyect->getId(),
-                    'name' => $proyect->getName()
+                    'name' => $proyect->getProyectName()
                 ];
         }
         return $proyectsJSON;
