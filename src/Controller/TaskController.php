@@ -14,11 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TaskController extends AbstractController
 {
-    #[Route('/task/new', name: 'app_task_new', methods: ['POST'])]
-    public function index(Request $request, TaskRepository $taskRepository, ProyectRepository $proyectRepo): JsonResponse
+    #[Route('/task/new/{id}', name: 'app_task_new', methods: ['POST'])]
+    public function index(Proyect $proyect, Request $request, TaskRepository $taskRepository, ProyectRepository $proyectRepo): JsonResponse
     {
         $taskData = json_decode($request->getContent());
-        $proyect = $proyectRepo->findOneBy(['id' => 1]);
+        //$proyect = $proyectRepo->findOneBy(['id' => 1]);
         $task = $taskRepository->createNewTask($taskData, $proyect);
         if (!$task) {
             return new JsonResponse(['msg' => 'Error en los datos, no se ha podido insertar', 'status' => 400], Response::HTTP_BAD_REQUEST);
