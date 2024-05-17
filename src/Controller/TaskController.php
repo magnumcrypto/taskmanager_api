@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Proyect;
 use App\Entity\Task;
 use App\Repository\ProyectRepository;
 use App\Repository\TaskRepository;
@@ -25,10 +26,10 @@ class TaskController extends AbstractController
         return new JsonResponse(['msg' => 'Nueva tarea creada', 'status' => 201], Response::HTTP_CREATED);
     }
 
-    #[Route('/tasks', name: 'app_tasks', methods: ['GET'])]
-    public function getTasks(TaskRepository $taskRepository, ProyectRepository $proyectRepo): JsonResponse
+    #[Route('/tasks/{id}', name: 'app_tasks', methods: ['GET'])]
+    public function getTasks(Proyect $proyect, TaskRepository $taskRepository, ProyectRepository $proyectRepo): JsonResponse
     {
-        $proyect = $proyectRepo->findOneBy(['id' => 1]);
+        //$proyect = $proyectRepo->findOneBy(['id' => 1]);
         $tasks = $taskRepository->getTasksJSON($proyect);
         return new JsonResponse($tasks, Response::HTTP_OK);
     }
