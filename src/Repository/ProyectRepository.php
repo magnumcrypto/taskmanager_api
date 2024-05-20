@@ -16,6 +16,14 @@ class ProyectRepository extends ServiceEntityRepository
         parent::__construct($registry, Proyect::class);
     }
 
+    public function save(Proyect $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function getProyectsJSON(): array
     {
         $proyects = $this->findAll();
@@ -28,5 +36,25 @@ class ProyectRepository extends ServiceEntityRepository
                 ];
         }
         return $proyectsJSON;
+    }
+
+    public function createProyect(object $proyectData): bool
+    {
+        if (!isset($proyectData)) {
+            return false;
+        }
+
+        $newProyect = new Proyect();
+        $newProyect->setProyectName($proyectData->proyect_name);
+        $this->save($newProyect, true);
+
+        $proyect = $this->findOneBy([
+            'id' => $newProyect->getId(),
+            'proyectName' => $newProyect->getProyectName()
+        ]);
+        if (!isset($proyect)) {
+            return false;
+        }
+        return true;
     }
 }
